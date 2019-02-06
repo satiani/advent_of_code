@@ -1,5 +1,5 @@
-use std::fs;
 use std::collections::HashMap;
+use std::fs;
 
 fn main() {
     let contents = fs::read_to_string("data/input.txt").expect("Error opening file");
@@ -37,20 +37,20 @@ fn find_similar_ids(lines: &Vec<&str>) {
     let list_size = lines.len();
     for i in 0..list_size {
         let base_string = lines[i];
-        for j in i+1..list_size {
+        for j in i + 1..list_size {
             let compared_string = lines[j];
             let mut differences = 0;
             let mut similar_characters = String::with_capacity(20);
 
             'char: for (c1, c2) in base_string.chars().zip(compared_string.chars()) {
-               if c1 != c2 {
-                   differences += 1;
-                   if differences > 1 {
-                       break 'char;
-                   }
-               } else {
-                   similar_characters.push(c1);
-               }
+                if c1 != c2 {
+                    differences += 1;
+                    if differences > 1 {
+                        break 'char;
+                    }
+                } else {
+                    similar_characters.push(c1);
+                }
             }
 
             if differences == 1 {

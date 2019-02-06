@@ -1,23 +1,21 @@
+use std::fmt;
 use std::fs;
 use std::str::Lines;
-use std::fmt;
 
 struct Claim {
     id: u16,
     left: u16,
     top: u16,
     width: u16,
-    height: u16
+    height: u16,
 }
 
 impl fmt::Display for Claim {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "#{} @ {},{}: {}x{}",
-            self.id,
-            self.left,
-            self.top,
-            self.width,
-            self.height
+        write!(
+            f,
+            "#{} @ {},{}: {}x{}",
+            self.id, self.left, self.top, self.width, self.height
         )
     }
 }
@@ -50,7 +48,7 @@ fn gather_claims(lines: Lines) -> Option<(Vec<Claim>, (u16, u16))> {
                 left: result[1],
                 top: result[2],
                 width: result[3],
-                height: result[4]
+                height: result[4],
             };
             if claim.height + claim.top > max_height {
                 max_height = claim.height + claim.top;
@@ -69,9 +67,8 @@ fn gather_claims(lines: Lines) -> Option<(Vec<Claim>, (u16, u16))> {
     None
 }
 
-
 fn get_overlapping_inches_count(claims: &Vec<Claim>, width: u16, height: u16) {
-    let mut square_inches = vec![0u16; width as usize*height as usize];
+    let mut square_inches = vec![0u16; width as usize * height as usize];
     let mut inches_with_overlapping_claims = 0u32;
     for claim in claims {
         for i in 0..claim.width {

@@ -1,6 +1,6 @@
+use std::collections::HashSet;
 use std::fs;
 use std::io::Result;
-use std::collections::HashSet;
 
 fn main() -> Result<()> {
     let path = "data/input.txt";
