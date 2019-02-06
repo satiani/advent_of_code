@@ -68,13 +68,13 @@ fn gather_claims(lines: Lines) -> Option<(Vec<Claim>, (u16, u16))> {
 }
 
 fn get_overlapping_inches_count(claims: &Vec<Claim>, width: u16, height: u16) {
-    let mut square_inches = vec![0u16; width as usize * height as usize];
+    let mut square_inches = vec![0u8; width as usize * height as usize];
     let mut inches_with_overlapping_claims = 0u32;
     for claim in claims {
         for i in 0..claim.width {
             for j in 0..claim.height {
                 let index: usize = (claim.top + j) as usize * 1000 + (claim.left + i) as usize;
-                let new_count = square_inches[index] + 1;
+                let new_count = square_inches[index].saturating_add(1);
                 if new_count == 2 {
                     inches_with_overlapping_claims += 1;
                 }
