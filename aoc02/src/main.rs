@@ -2,15 +2,16 @@ use std::fs;
 use std::collections::HashMap;
 
 fn main() {
-    let lines = fs::read_to_string("data/input.txt").expect("Error opening file");
+    let contents = fs::read_to_string("data/input.txt").expect("Error opening file");
+    let lines = contents.lines().collect();
     print_checksum(&lines);
     find_similar_ids(&lines);
 }
 
-fn print_checksum(lines: &String) {
+fn print_checksum(lines: &Vec<&str>) {
     let mut two_letter_count = 0;
     let mut three_letter_count = 0;
-    for line in lines.lines() {
+    for line in lines {
         let mut character_count = HashMap::new();
 
         for ch in line.chars() {
@@ -32,13 +33,12 @@ fn print_checksum(lines: &String) {
     println!("Checksum: {}", two_letter_count * three_letter_count);
 }
 
-fn find_similar_ids(lines: &String) {
-    let collected_lines: Vec<&str> = lines.lines().collect();
-    let list_size = collected_lines.len();
+fn find_similar_ids(lines: &Vec<&str>) {
+    let list_size = lines.len();
     for i in 0..list_size {
-        let base_string = collected_lines[i];
+        let base_string = lines[i];
         for j in i+1..list_size {
-            let compared_string = collected_lines[j];
+            let compared_string = lines[j];
             let mut differences = 0;
             let mut similar_characters = String::with_capacity(20);
 
