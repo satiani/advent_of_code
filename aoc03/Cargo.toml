@@ -5,3 +5,6 @@ authors = ["Samer Atiani <satiani@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+serde_scan = "0.3.2"
+serde = "^1.0"
+serde_derive = "^1.0"

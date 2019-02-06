@@ -1,23 +1,18 @@
-use std::fmt;
+#[macro_use]
+extern crate serde_scan;
+#[macro_use]
+extern crate serde_derive;
+
 use std::fs;
 use std::str::Lines;
 
+#[derive(Deserialize, Debug, PartialEq, Copy, Clone)]
 struct Claim {
     id: u16,
     left: u16,
     top: u16,
     width: u16,
     height: u16,
-}
-
-impl fmt::Display for Claim {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "#{} @ {},{}: {}x{}",
-            self.id, self.left, self.top, self.width, self.height
-        )
-    }
 }
 
 fn main() {
@@ -36,27 +31,14 @@ fn gather_claims(lines: Lines) -> Option<(Vec<Claim>, (u16, u16))> {
     let mut max_height: u16 = 0;
     let mut max_width: u16 = 0;
     for line in lines {
-        let result: Vec<u16> = line
-            .split(|c| ['#', '@', ' ', ',', ':', 'x'].contains(&c))
-            .filter(|s: &&str| *s != "")
-            .map(|s: &str| s.parse::<u16>().unwrap())
-            .collect();
+        let claim: Claim = scan!("#{} @ {},{}: {}x{}" <- line).expect("Failed!");
+        claims.push(claim);
 
-        if result.len() == 5 {
-            let claim = Claim {
-                id: result[0],
-                left: result[1],
-                top: result[2],
-                width: result[3],
-                height: result[4],
-            };
-            if claim.height + claim.top > max_height {
-                max_height = claim.height + claim.top;
-            }
-            if claim.width + claim.left > max_width {
-                max_width = claim.width + claim.left;
-            }
-            claims.push(claim);
+        if claim.height + claim.top > max_height {
+            max_height = claim.height + claim.top;
+        }
+        if claim.width + claim.left > max_width {
+            max_width = claim.width + claim.left;
         }
     }
 
@@ -94,6 +76,6 @@ fn get_overlapping_inches_count(claims: &Vec<Claim>, width: u16, height: u16) {
                 }
             }
         }
-        println!("This claim does not overlap: {}", claim);
+        println!("This claim does not overlap: {:?}", claim);
     }
 }
