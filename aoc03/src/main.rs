@@ -84,4 +84,16 @@ fn get_overlapping_inches_count(claims: &Vec<Claim>, width: u16, height: u16) {
     }
 
     println!("Overlapping inches: {}", inches_with_overlapping_claims);
+
+    'claim: for claim in claims {
+        for i in 0..claim.width {
+            for j in 0..claim.height {
+                let index: usize = (claim.top + j) as usize * 1000 + (claim.left + i) as usize;
+                if square_inches[index] > 1 {
+                    continue 'claim;
+                }
+            }
+        }
+        println!("This claim does not overlap: {}", claim);
+    }
 }
