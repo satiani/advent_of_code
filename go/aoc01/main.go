@@ -17,7 +17,7 @@ func part1() {
 
 	defer file.Close()
 
-	var end_result int32 = 0
+	var endResult int32 = 0
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -26,10 +26,10 @@ func part1() {
 			log.Fatal(err)
 		}
 
-		end_result = end_result + int32(integer)
+		endResult = endResult + int32(integer)
 	}
 
-	fmt.Println(end_result)
+	fmt.Println(endResult)
 }
 
 func part2() {
