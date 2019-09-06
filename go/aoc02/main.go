@@ -17,27 +17,27 @@ func part1() {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	number_of_twos := 0
-	number_of_threes := 0
+	numberOfTwos := 0
+	numberOfThrees := 0
 	for scanner.Scan() {
 		text := string(scanner.Text())
-		letter_counts := make(map[rune]int)
+		letterCounts := make(map[rune]int)
 		for _, char := range text {
-			letter_counts[char]++
+			letterCounts[char]++
 		}
 
-		two_counted := false
-		three_counted := false
+		twoCounted := false
+		threeCounted := false
 
-		for _, v := range letter_counts {
-			if !two_counted && v == 2 {
-				number_of_twos++
-				two_counted = true
+		for _, v := range letterCounts {
+			if !twoCounted && v == 2 {
+				numberOfTwos++
+				twoCounted = true
 			}
 
-			if !three_counted && v == 3 {
-				number_of_threes++
-				three_counted = true
+			if !threeCounted && v == 3 {
+				numberOfThrees++
+				threeCounted = true
 			}
 		}
 	}
@@ -46,7 +46,7 @@ func part1() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("checksum is: %d\n", number_of_twos*number_of_threes)
+	fmt.Printf("checksum is: %d\n", numberOfTwos*numberOfThrees)
 }
 
 type Pair struct {
@@ -128,5 +128,6 @@ func part2() {
 }
 
 func main() {
+	part1()
 	part2()
 }
